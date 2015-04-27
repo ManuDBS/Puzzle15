@@ -14,5 +14,5 @@ void main()
 	if (*nProva == *nProva2)
 		cout << "OK";
 
-	getchar();
+	//getchar();
 }
