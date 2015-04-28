@@ -1,8 +1,12 @@
 #include "Node.h"
 
-Node::Node(Tiles &newConfiguration)
-	: tConfiguration(newConfiguration) 
-{};
+Node::Node(Tiles &newConfiguration, int blankPosition, Node *father)
+	:
+	tConfiguration(newConfiguration),
+	iBlankPosition(blankPosition)
+{
+	nFather = father;
+};
 
 bool Node::operator==(const Node &other)
 {

@@ -64,11 +64,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NodeState.h" />
     <ClInclude Include="Tiles.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
   </ItemGroup>

@@ -6,14 +6,14 @@
 struct Node
 {
 	Tiles tConfiguration;	
-	int iBlankSpace;
-	int iF;
+	int iBlankPosition;
+	//int iF;
 	int iG;
 	int iH;
-	Node* nParent;
+	Node* nFather;
 	NodeState eState;
 
-	Node(Tiles &newConfiguration);
+	Node(Tiles &newConfiguration, int blankSpace, Node *father);
 	bool operator==(const Node &other);
 	int getF() const;
 };
