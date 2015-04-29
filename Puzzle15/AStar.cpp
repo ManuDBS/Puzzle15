@@ -94,6 +94,8 @@ void AStar::AddToOpenList(Node *newNode)
 	}
 	if (!bInserted)
 		qOpenList.push_back(newNode);
+	std::cout << qOpenList.size() << std::endl;
+	system("cls");
 }
 
 void AStar::AddToClosedList(Node *newNode)
@@ -101,6 +103,8 @@ void AStar::AddToClosedList(Node *newNode)
 	qClosedList.push_back(newNode);
 	if ( newNode->nFather != NULL ) // il nodo iniziale non finisce in openlist
 		qOpenList.remove(newNode);
+	//std::cout << qClosedList.size() << std::endl;
+	//system("cls");
 }
 
 void AStar::ComputeHeuristic(Node *newNode) const
@@ -128,6 +132,8 @@ void AStar::PrintPath(Node *finalNode) const
 	}
 	int rows = 4;
 	int cols = 4;
+	int iSize = qPath.size() - 1;
+	int iCounter = 0;
 	std::list<Node*>::iterator iEnd(qPath.end());
 	for (std::list<Node*>::iterator iter = qPath.begin(); iter != iEnd; ++iter)
 	{
@@ -140,7 +146,9 @@ void AStar::PrintPath(Node *finalNode) const
 			std::cout << std::endl << std::endl;
 		}
 		Sleep(1000);
-		system("cls");
+		if ( iCounter != iSize )
+			system("cls");
+		++iCounter;
 	}
 }
 
