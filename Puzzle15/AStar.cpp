@@ -1,7 +1,7 @@
 #include "AStar.h"
 #include <iostream> // To use cout
 #include <algorithm> // To use swap()
-#include <windows.h> // To use Sleep()
+#include <windows.h> // To use Sleep() and system()
 #include <math.h> // To use abs()
 
 AStar::AStar(Node *startNode)
@@ -24,7 +24,9 @@ void AStar::Run()
 	// La seconda condizione è per farlo entrare nel ciclo la prima volta
 	while (!qOpenList.empty() || nextNode->nFather == NULL )
 	{
-		nextNode = CreateNodeAdj(nextNode); // crea le adiacenze e le aggiunge in openlist
+		// crea le adiacenze e le aggiunge in openlist
+		// ritorna il nodo con la F migliore
+		nextNode = CreateNodeAdj(nextNode);
 		if (nextNode->iH == 0)
 		{
 			PrintPath(nextNode);
@@ -67,8 +69,7 @@ Node* AStar::CreateNodeAdj(Node *newNode)
 		ComputeHeuristic(tmp);
 		AddToOpenList(tmp);
 	}
-	Node *nextNode = qOpenList.front();
-	return nextNode;
+	return qOpenList.front();
 }
 
 void AStar::AddToOpenList(Node *newNode)
@@ -94,8 +95,6 @@ void AStar::AddToOpenList(Node *newNode)
 	}
 	if (!bInserted)
 		qOpenList.push_back(newNode);
-	std::cout << qOpenList.size() << std::endl;
-	system("cls");
 }
 
 void AStar::AddToClosedList(Node *newNode)
@@ -103,8 +102,6 @@ void AStar::AddToClosedList(Node *newNode)
 	qClosedList.push_back(newNode);
 	if ( newNode->nFather != NULL ) // il nodo iniziale non finisce in openlist
 		qOpenList.remove(newNode);
-	//std::cout << qClosedList.size() << std::endl;
-	//system("cls");
 }
 
 void AStar::ComputeHeuristic(Node *newNode) const

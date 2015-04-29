@@ -5,10 +5,10 @@ using namespace std;
 
 void main()
 {
-	Tiles tStartState = { 10, 1, 3, 2, 0, 4, 8, 12, 6, 5, 13, 7, 9, 14, 15, 11 };
+	Tiles tStartState = { 1, 2, 3, 4, 5, 6, 8, 11, 9, 10, 7, 0, 13, 14, 15, 12 };
 	
 	// Configuration, BlankSpace, Father
-	Node *nStartNode = new Node(tStartState, 4, NULL);
+	Node *nStartNode = new Node(tStartState, 11, NULL);
 	
 	nStartNode->iG = 0;
 
