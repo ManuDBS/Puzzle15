@@ -7,7 +7,7 @@ struct Node
 {
 	Tiles tConfiguration;	
 	int iBlankPosition;
-	//int iF;
+	int iF; // Evito di calcolarla molte volte
 	int iG;
 	int iH;
 	Node* nFather;
@@ -15,5 +15,4 @@ struct Node
 
 	Node(Tiles &newConfiguration, int blankSpace, Node *father);
 	bool operator==(const Node &other);
-	int getF() const;
 };

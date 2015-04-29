@@ -17,8 +17,3 @@ bool Node::operator==(const Node &other)
 	}
 	return true;
 }
-
-int Node::getF() const
-{
-	return iH + iG;
-}
