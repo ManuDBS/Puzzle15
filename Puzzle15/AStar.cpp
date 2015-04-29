@@ -1,5 +1,6 @@
 #include "AStar.h"
-#include <iostream>
+#include <iostream> // To use cout
+#include <algorithm> // To use swap()
 #include <windows.h> // To use Sleep()
 #include <math.h> // To use abs()
 
@@ -11,26 +12,63 @@ AStar::AStar(Node *startNode)
 void AStar::Run()
 {
 	ComputeHeuristic(nStarNode);
-	if (nStarNode->iG == 0)
+	// Lo stato iniziale corrisponde allo stato finale
+	if (nStarNode->iH == 0)
 	{
-		// Lo stato iniziale corrisponde allo stato finale
 		PrintPath(nStarNode);
 		delete nStarNode;
 		return;
 	}
-	Node *nextNode = CreateNodeAdj(nStarNode);	// Crea le adiacenze e computa le euristiche di ogni singolo nodo e le aggiunge
-												// in ordine nella openlist, mettendo il closed il nodo passato, restituisce il nuovo
-												// nodo con F migliore
-	while (!qOpenList.empty())	// se il nuovo nodo ha euristica 0 sono arrivato alla soluzione
-								// elimino i nodi in openlist ed esce dal ciclo
+	
+	Node *nextNode = nStarNode;	
+	// La seconda condizione è per farlo entrare nel ciclo la prima volta
+	while (!qOpenList.empty() || nextNode->nFather == NULL )
 	{
-		nextNode = CreateNodeAdj(nextNode); 
+		nextNode = CreateNodeAdj(nextNode); // crea le adiacenze e le aggiunge in openlist
+		if (nextNode->iH == 0)
+		{
+			PrintPath(nextNode);
+			Clear();
+			return;
+		} else
+			AddToClosedList(nextNode);
 	}
 }
 
 Node* AStar::CreateNodeAdj(Node *newNode)
 {
-
+	Node *tmp;
+	int iBlankPosition = newNode->iBlankPosition;
+	if ( iBlankPosition > 3 ) // sposto dal basso verso l'alto
+	{ 
+		tmp = new Node(newNode->tConfiguration, iBlankPosition - 4, newNode);
+		std::swap(tmp->tConfiguration.iTiles[iBlankPosition], tmp->tConfiguration.iTiles[iBlankPosition - 4]);
+		ComputeHeuristic(tmp);
+		AddToOpenList(tmp);
+	}
+	if ( iBlankPosition < 12) // sposto dall'alto verso il basso
+	{ 
+		tmp = new Node(newNode->tConfiguration, iBlankPosition + 4, newNode);
+		std::swap(tmp->tConfiguration.iTiles[iBlankPosition], tmp->tConfiguration.iTiles[iBlankPosition + 4]);
+		ComputeHeuristic(tmp);
+		AddToOpenList(tmp);
+	}
+	if ( iBlankPosition % 4 > 0 ) // sposto da destra a sinistra
+	{ 
+		tmp = new Node(newNode->tConfiguration, iBlankPosition - 1, newNode);
+		std::swap(tmp->tConfiguration.iTiles[iBlankPosition], tmp->tConfiguration.iTiles[iBlankPosition - 1]);
+		ComputeHeuristic(tmp);
+		AddToOpenList(tmp);
+	}
+	if ( iBlankPosition % 4 < 3 ) // sposto da sinistra a destra
+	{ 
+		tmp = new Node(newNode->tConfiguration, iBlankPosition + 1, newNode);
+		std::swap(tmp->tConfiguration.iTiles[iBlankPosition], tmp->tConfiguration.iTiles[iBlankPosition + 1]);
+		ComputeHeuristic(tmp);
+		AddToOpenList(tmp);
+	}
+	Node *nextNode = qOpenList.front();
+	return nextNode;
 }
 
 void AStar::AddToOpenList(Node *newNode)
@@ -61,7 +99,7 @@ void AStar::AddToOpenList(Node *newNode)
 void AStar::AddToClosedList(Node *newNode)
 {
 	qClosedList.push_back(newNode);
-	if ( newNode != nStarNode ) // il nodo iniziale non finisce in openlist
+	if ( newNode->nFather != NULL ) // il nodo iniziale non finisce in openlist
 		qOpenList.remove(newNode);
 }
 
@@ -101,7 +139,8 @@ void AStar::PrintPath(Node *finalNode) const
 			}
 			std::cout << std::endl << std::endl;
 		}
-		Sleep(500);
+		Sleep(1000);
+		system("cls");
 	}
 }
 
