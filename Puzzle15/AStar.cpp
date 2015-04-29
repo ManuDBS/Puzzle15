@@ -89,7 +89,7 @@ void AStar::AddToOpenList(Node *newNode)
 		{
 			qOpenList.insert(iter, newNode);
 			bInserted = true;
-			break;
+			return;
 		}
 	}
 	if (!bInserted)
@@ -151,14 +151,14 @@ void AStar::Clear()
 	for (std::list<Node*>::iterator iter = qClosedList.begin(); iter != iEnd; ++iter)
 	{
 		delete *iter;
-		qClosedList.pop_front();
 	}
+	qClosedList.clear();
 
 	// Elimino i nodi della OpenList
 	iEnd = qOpenList.end();
 	for (std::list<Node*>::iterator iter = qOpenList.begin(); iter != iEnd; ++iter)
 	{
 		delete *iter;
-		qOpenList.pop_front();
 	}
+	qClosedList.clear();
 }
