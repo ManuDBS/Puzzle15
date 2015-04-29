@@ -3,7 +3,8 @@
 Node::Node(Tiles &newConfiguration, int blankPosition, Node *father)
 	:
 	tConfiguration(newConfiguration),
-	iBlankPosition(blankPosition)
+	iBlankPosition(blankPosition),
+	iG(0)
 {
 	nFather = father;
 };
